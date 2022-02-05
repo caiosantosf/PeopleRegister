@@ -8,7 +8,7 @@ namespace PeopleRegister.CrossCutting.IOC;
 
 public static class DependencyInjectionConfig
 {
-    public static IServiceCollection AddDepencyInjections(this IServiceCollection services)
+    public static IServiceCollection AddDepencyInjection(this IServiceCollection services)
     {
         services.AddTransient<IPersonRepository, PersonRepository>();
         services.AddTransient<IPersonApplicationService, PersonApplicationService>();
