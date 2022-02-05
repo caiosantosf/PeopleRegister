@@ -1,39 +1,52 @@
-﻿using PeopleRegister.Domain.Entities;
+﻿using AutoMapper;
+using PeopleRegister.Application.Interfaces;
+using PeopleRegister.Domain.Entities;
 using PeopleRegister.Domain.Interfaces;
 
 namespace PeopleRegister.Application.Services;
 
-public class BaseApplicationService<TEntity> : IBaseRepository<TEntity> where TEntity : class
+public class BaseApplicationService<TDTO, TAddDTO, TEntity> : IBaseApplicationService<TDTO, TAddDTO> 
+    where TDTO : class
+    where TAddDTO : class
+    where TEntity : BaseEntity
 {
     private readonly IBaseRepository<TEntity> BaseRepository;
+    private readonly IMapper Mapper;
 
-    public BaseApplicationService(IBaseRepository<TEntity> baseRepository)
+    public BaseApplicationService(IBaseRepository<TEntity> baseRepository, IMapper mapper)
     {
         BaseRepository = baseRepository;
+        Mapper = mapper;
     }
 
-    public async Task Add(TEntity obj)
+    public async Task<Guid> Add(TAddDTO obj)
     {
-        await BaseRepository.Add(obj);
+        var entity = Mapper.Map<TEntity>(obj);
+        await BaseRepository.Add(entity);
+        return entity.Id;
     }
 
-    public async Task<IEnumerable<TEntity>> GetAll()
+    public async Task<IEnumerable<TDTO>> GetAll()
     {
-        return await BaseRepository.GetAll();
+        var entityItems = await BaseRepository.GetAll();
+        return Mapper.Map<IEnumerable<TDTO>>(entityItems);
     }
 
-    public async Task<TEntity> GetById(int id)
+    public async Task<TDTO> GetById(Guid id)
     {
-        return await BaseRepository.GetById(id);
+        var entity = await BaseRepository.GetById(id);
+        return Mapper.Map<TDTO>(entity);
     }
 
-    public async Task Remove(TEntity obj)
+    public async Task Remove(Guid id)
     {
-        await BaseRepository.Remove(obj);
+        var entity = await BaseRepository.GetById(id);
+        await BaseRepository.Remove(entity);
     }
 
-    public async Task Update(TEntity obj)
+    public async Task Update(TDTO obj)
     {
-        await BaseRepository.Update(obj);
+        var entity = Mapper.Map<TEntity>(obj);
+        await BaseRepository.Update(entity);
     }
 }

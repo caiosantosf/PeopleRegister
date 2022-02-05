@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PeopleRegister.Domain.Entities;
 using PeopleRegister.Domain.Interfaces;
 
 namespace PeopleRegister.Infrastructure.Data.Repositories;
 
-public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
+public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
 {
     private readonly Context context;
 
@@ -14,15 +15,8 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
     public async Task Add(TEntity obj)
     {
-        try
-        {
-            await context.Set<TEntity>().AddAsync(obj);
-            await context.SaveChangesAsync();
-        }
-        catch (Exception)
-        {
-            throw;
-        }
+        await context.Set<TEntity>().AddAsync(obj);
+        await context.SaveChangesAsync();
     }
 
     public async Task<IEnumerable<TEntity>> GetAll()
@@ -30,7 +24,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         return await context.Set<TEntity>().ToListAsync();
     }
 
-    public async Task<TEntity> GetById(int id)
+    public async Task<TEntity> GetById(Guid id)
     {
         return await context.Set<TEntity>().FindAsync(id);
     }

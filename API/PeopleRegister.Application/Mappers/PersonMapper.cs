@@ -8,7 +8,7 @@ public class PersonMapper : Profile
 {
     public PersonMapper()
     {
-        CreateMap<Person, AddPersonDTO>();
+        CreateMap<Person, PersonDTO>();
         CreateMap<AddPersonDTO, Person>();
     }
 }
