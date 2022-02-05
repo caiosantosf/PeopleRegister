@@ -5,7 +5,7 @@ using PeopleRegister.Domain.Notifications;
 
 namespace PeopleRegister.Domain.Entities;
 
-public class Person : EntityBase
+public class Person : BaseEntity
 {
     public string Name { get; private set; }
     public string LastName { get; private set; }
@@ -18,7 +18,7 @@ public class Person : EntityBase
     public string Email { get; private set; } 
     public string Phone { get; private set; }
 
-    public Person(string name, string lastName, string cpf, string nacionality, string cep, string state, string city, string address, string email, string phone)
+    public Person(string name, string lastName, string cpf, string nacionality, string cep, string state, string city, string address, string email, string phone) : base()
     {
         Name = name;
         LastName = lastName;
