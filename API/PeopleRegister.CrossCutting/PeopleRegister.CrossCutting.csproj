@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Flunt" Version="2.0.5" />
+    <PackageReference Include="Flunt.Br" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PeopleRegister.Application\PeopleRegister.Application.csproj" />
     <ProjectReference Include="..\PeopleRegister.Data\PeopleRegister.Data.csproj" />
     <ProjectReference Include="..\PeopleRegister.Domain\PeopleRegister.Domain.csproj" />

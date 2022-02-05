@@ -1,19 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
-using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using PeopleRegister.Domain.Exceptions;
 using System.Net;
-using System.Web.Http.Filters;
 
 namespace PeopleRegister.CrossCutting.Filters;
 
-public class GlobalExceptionFilter : ExceptionFilterAttribute
+public class GlobalExceptionFilter : IExceptionFilter
 {
-    public override void OnException(HttpActionExecutedContext context)
+    public async void OnException(ExceptionContext context)
     {
-        context.Response.Content = new StringContent(string.Format(JsonConvert.SerializeObject(
-            new { Error = $"Um erro inesperado aconteceu no servidor - {context.Exception.Message}" })));
+        var result = new ObjectResult(new
+        {
+            context.Exception.Message,
+            context.Exception.Source,
+            ExceptionType = context.Exception.GetType().FullName,
+        })
+        {
+            StatusCode = context.Exception is NotFoundException ? (int)HttpStatusCode.NotFound : (int)HttpStatusCode.InternalServerError
+        };
 
-        context.Response.StatusCode = HttpStatusCode.InternalServerError;
-
-        base.OnException(context);
+        context.Result = result;
     }
 }

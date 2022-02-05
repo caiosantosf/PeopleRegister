@@ -19,7 +19,7 @@ public class NotificationFilter : IAsyncResultFilter
     {
         if (!NotificationContext.IsValid)
         {
-            var error = new Error(NotificationContext.Notifications.Select(s => s.Message));
+            var error = new { Messages = NotificationContext.Notifications.Select(s => s.Message) };
 
             context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 

@@ -1,11 +1,8 @@
 using PeopleRegister.Application.Mappers;
 using PeopleRegister.CrossCutting.IOC;
 using PeopleRegister.CrossCutting.Filters;
-using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -15,7 +12,7 @@ builder.Services.AddDepencyInjection();
 builder.Services.AddProfiles();
 
 builder.Services.AddMvc(options => options.Filters.Add<NotificationFilter>());
-builder.Services.AddMvc(options => options.Filters.Add(new ServiceFilterAttribute(typeof(GlobalExceptionFilter))));
+builder.Services.AddMvc(options => options.Filters.Add<GlobalExceptionFilter>());
 
 var app = builder.Build();
 

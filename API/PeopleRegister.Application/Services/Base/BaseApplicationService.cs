@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using PeopleRegister.Application.Interfaces;
 using PeopleRegister.Domain.Entities;
+using PeopleRegister.Domain.Exceptions;
 using PeopleRegister.Domain.Interfaces;
+using PeopleRegister.Domain.Notifications;
 
 namespace PeopleRegister.Application.Services;
 
@@ -35,18 +37,36 @@ public class BaseApplicationService<TDTO, TAddDTO, TEntity> : IBaseApplicationSe
     public async Task<TDTO> GetById(Guid id)
     {
         var entity = await BaseRepository.GetById(id);
+
+        if (entity == null)
+        {
+            throw new NotFoundException(Messages.PersonNotFound);
+        }
+
         return Mapper.Map<TDTO>(entity);
     }
 
     public async Task Remove(Guid id)
     {
         var entity = await BaseRepository.GetById(id);
+
+        if (entity == null)
+        {
+            throw new NotFoundException(Messages.PersonNotFound);
+        }
+
         await BaseRepository.Remove(entity);
     }
 
     public async Task Update(TDTO obj)
     {
-        var entity = Mapper.Map<TEntity>(obj);
+        var entity = await BaseRepository.GetById(Mapper.Map<TEntity>(obj).Id);
+
+        if (entity == null)
+        {
+            throw new NotFoundException(Messages.PersonNotFound);
+        }
+                
         await BaseRepository.Update(entity);
     }
 }
