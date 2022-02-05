@@ -2,7 +2,7 @@
 using PeopleRegister.Domain.Entities;
 using PeopleRegister.Domain.Interfaces;
 
-namespace PeopleRegister.Infrastructure.Data.Repositories;
+namespace PeopleRegister.Data.Repositories;
 
 public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
 {

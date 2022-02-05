@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PeopleRegister.Domain.Entities;
 
-namespace PeopleRegister.Infrastructure.Data;
+namespace PeopleRegister.Data;
 
 public class Context : DbContext
 {

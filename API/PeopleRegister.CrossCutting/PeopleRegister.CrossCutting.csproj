@@ -7,12 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="6.3.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\PeopleRegister.Application\PeopleRegister.Application.csproj" />
+    <ProjectReference Include="..\PeopleRegister.Data\PeopleRegister.Data.csproj" />
     <ProjectReference Include="..\PeopleRegister.Domain\PeopleRegister.Domain.csproj" />
   </ItemGroup>
 
