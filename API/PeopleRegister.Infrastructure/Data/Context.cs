@@ -3,11 +3,11 @@ using PeopleRegister.Domain.Entities;
 
 namespace PeopleRegister.Infrastructure.Data;
 
-public class SqlServerContext : DbContext
+public class Context : DbContext
 {
-    public SqlServerContext() { }
+    public Context() { }
 
-    public SqlServerContext(DbContextOptions<SqlServerContext> options) : base(options) { }
+    public Context(DbContextOptions<Context> options) : base(options) { }
 
     public DbSet<Person> People { get; set; }
 

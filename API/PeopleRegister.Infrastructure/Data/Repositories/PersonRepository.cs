@@ -5,7 +5,7 @@ namespace PeopleRegister.Infrastructure.Data.Repositories
 {
     public class PersonRepository : BaseRepository<Person>, IPersonRepository
     {
-        public PersonRepository(SqlServerContext sqlServerContext) : base(sqlServerContext)
+        public PersonRepository(Context sqlServerContext) : base(sqlServerContext)
         {
         }
     }

@@ -5,9 +5,9 @@ namespace PeopleRegister.Infrastructure.Data.Repositories;
 
 public class BaseRepository<TEntity> : IBaseOperations<TEntity> where TEntity : class
 {
-    private readonly SqlServerContext context;
+    private readonly Context context;
 
-    public BaseRepository(SqlServerContext sqlServerContext)
+    public BaseRepository(Context sqlServerContext)
     {
         context = sqlServerContext;
     }
