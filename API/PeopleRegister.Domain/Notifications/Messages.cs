@@ -13,4 +13,5 @@ public static class Messages
     public const string InvalidAddress = "O Logradouro informado é inválido";
     public const string InvalidCity = "A Cidade informada é inválida";
     public const string PersonNotFound = "Pessoa não encontrada";
+    public const string CPFJaCadastrado = "O CPF informado já está cadastrado";
 }

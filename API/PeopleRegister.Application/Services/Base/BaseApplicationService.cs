@@ -4,6 +4,7 @@ using PeopleRegister.Domain.Entities;
 using PeopleRegister.Domain.Exceptions;
 using PeopleRegister.Domain.Interfaces;
 using PeopleRegister.Domain.Notifications;
+using System.Linq.Expressions;
 
 namespace PeopleRegister.Application.Services;
 
@@ -21,20 +22,20 @@ public class BaseApplicationService<TDTO, TAddDTO, TEntity> : IBaseApplicationSe
         Mapper = mapper;
     }
 
-    public async Task<Guid> Add(TAddDTO obj)
+    public virtual async Task<Guid> Add(TAddDTO obj)
     {
         var entity = Mapper.Map<TEntity>(obj);
         await BaseRepository.Add(entity);
         return entity.Id;
     }
 
-    public async Task<IEnumerable<TDTO>> GetAll()
+    public virtual async Task<IEnumerable<TDTO>> GetAll()
     {
         var entityItems = await BaseRepository.GetAll();
         return Mapper.Map<IEnumerable<TDTO>>(entityItems);
     }
 
-    public async Task<TDTO> GetById(Guid id)
+    public virtual async Task<TDTO> GetById(Guid id)
     {
         var entity = await BaseRepository.GetById(id);
 
@@ -46,7 +47,7 @@ public class BaseApplicationService<TDTO, TAddDTO, TEntity> : IBaseApplicationSe
         return Mapper.Map<TDTO>(entity);
     }
 
-    public async Task Remove(Guid id)
+    public virtual async Task Remove(Guid id)
     {
         var entity = await BaseRepository.GetById(id);
 
@@ -58,7 +59,7 @@ public class BaseApplicationService<TDTO, TAddDTO, TEntity> : IBaseApplicationSe
         await BaseRepository.Remove(entity);
     }
 
-    public async Task Update(TDTO obj)
+    public virtual async Task Update(TDTO obj)
     {
         var entity = await BaseRepository.GetById(Mapper.Map<TEntity>(obj).Id);
 

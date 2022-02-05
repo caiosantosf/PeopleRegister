@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PeopleRegister.Domain.Entities;
 using PeopleRegister.Domain.Interfaces;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace PeopleRegister.Data.Repositories;
 
@@ -29,29 +31,20 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         return await context.Set<TEntity>().FindAsync(id);
     }
 
+    public async Task<IEnumerable<TEntity>> GetFiltered(Expression<Func<TEntity, bool>> query)
+    {
+        return await context.Set<TEntity>().Where(query).ToListAsync();
+    }
+
     public async Task Remove(TEntity obj)
     {
-        try
-        {
-            context.Set<TEntity>().Remove(obj);
-            await context.SaveChangesAsync();
-        }
-        catch (Exception)
-        {
-            throw;
-        }
+        context.Set<TEntity>().Remove(obj);
+        await context.SaveChangesAsync();
     }
 
     public async Task Update(TEntity obj)
     {
-        try
-        {
-            context.Set<TEntity>().Update(obj);
-            await context.SaveChangesAsync();
-        }
-        catch (Exception)
-        {
-            throw;
-        }
+        context.Set<TEntity>().Update(obj);
+        await context.SaveChangesAsync();
     }
 }
