@@ -7,10 +7,9 @@ public class Error
     public IEnumerable<string> Messages { get; set; }
     public int Status { get; set; }
 
-    public Error(IEnumerable<string> msg, HttpStatusCode code)
+    public Error(IEnumerable<string> msg)
     {
         Messages = msg;
-        Status = (int)code;
     }
 }
 

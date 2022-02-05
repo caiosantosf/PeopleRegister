@@ -19,10 +19,9 @@ public class NotificationFilter : IAsyncResultFilter
     {
         if (!NotificationContext.IsValid)
         {
-            var error = new Error(NotificationContext.Notifications.Select(s => s.Message), HttpStatusCode.BadRequest);
+            var error = new Error(NotificationContext.Notifications.Select(s => s.Message));
 
-            context.HttpContext.Response.StatusCode = error.Status;
-            context.HttpContext.Response.ContentType = "application/json";
+            context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 
             var notifications = JsonConvert.SerializeObject(error);
             await context.HttpContext.Response.WriteAsync(notifications);
