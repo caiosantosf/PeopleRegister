@@ -1,6 +1,6 @@
 ﻿namespace PeopleRegister.Domain.Interfaces;
 
-public interface IBaseOperations<TEntity> where TEntity : class
+public interface IBaseApplicationService<TEntity> where TEntity : class
 {
     Task Add(TEntity obj);
     Task Update(TEntity obj);

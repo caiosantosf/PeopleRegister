@@ -3,7 +3,7 @@ using PeopleRegister.Domain.Interfaces;
 
 namespace PeopleRegister.Infrastructure.Data.Repositories;
 
-public class BaseRepository<TEntity> : IBaseOperations<TEntity> where TEntity : class
+public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
 {
     private readonly Context context;
 

@@ -2,6 +2,6 @@
 
 namespace PeopleRegister.Domain.Interfaces;
 
-public interface IPersonRepository : IBaseOperations<Person>
+public interface IPersonRepository : IBaseRepository<Person>
 {
 }
