@@ -1,15 +1,32 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using PeopleRegister.Data.Mappings;
 using PeopleRegister.Domain.Entities;
 
 namespace PeopleRegister.Data;
 
 public class Context : DbContext
 {
+    public IConfiguration Configuration { get; }
+
     public Context() { }
 
-    public Context(DbContextOptions<Context> options) : base(options) { }
+    public Context(DbContextOptions<Context> options, IConfiguration configuration) : base(options) 
+    {
+        Configuration = configuration;
+    }
 
     public DbSet<Person> People { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlServer(Configuration.GetConnectionString("connectionString"));
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfiguration(new PersonMap());
+    }
 
     public override int SaveChanges()
     {
