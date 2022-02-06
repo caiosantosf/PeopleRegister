@@ -29,9 +29,9 @@ public class BaseApplicationService<TDTO, TAddDTO, TEntity> : IBaseApplicationSe
         return entity.Id;
     }
 
-    public virtual async Task<IEnumerable<TDTO>> GetAll()
+    public virtual async Task<IEnumerable<TDTO>> GetManyPaginated(int Page, int PageItems, string Search)
     {
-        var entityItems = await BaseRepository.GetAll();
+        var entityItems = await BaseRepository.GetManyPaginated(Page, PageItems, null);
         return Mapper.Map<IEnumerable<TDTO>>(entityItems);
     }
 

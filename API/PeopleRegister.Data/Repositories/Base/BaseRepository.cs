@@ -21,9 +21,9 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         await context.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<TEntity>> GetAll()
+    public async Task<IEnumerable<TEntity>> GetManyPaginated(int Page, int PageItems, Expression<Func<TEntity, bool>> query)
     {
-        return await context.Set<TEntity>().ToListAsync();
+        return await context.Set<TEntity>().Where(query).Skip((Page - 1) * PageItems).Take(PageItems).ToListAsync();
     }
 
     public async Task<TEntity> GetById(Guid id)

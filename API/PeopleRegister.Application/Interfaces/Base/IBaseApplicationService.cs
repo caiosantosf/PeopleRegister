@@ -7,6 +7,6 @@ public interface IBaseApplicationService<TDTO, TAddDTO>
     Task<Guid> Add(TAddDTO obj);
     Task Update(TDTO obj);
     Task Remove(Guid id);
-    Task<IEnumerable<TDTO>> GetAll();
+    Task<IEnumerable<TDTO>> GetManyPaginated(int Page, int PageItems, string Search);
     Task<TDTO> GetById(Guid id);
 }

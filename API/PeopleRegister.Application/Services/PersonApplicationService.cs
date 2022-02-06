@@ -10,8 +10,8 @@ namespace PeopleRegister.Application.Services;
 
 public class PersonApplicationService : BaseApplicationService<PersonDTO, AddPersonDTO, Person>, IPersonApplicationService
 {
-    IPersonRepository PersonRepository;
-    IMapper Mapper;
+    private readonly IPersonRepository PersonRepository;
+    private readonly IMapper Mapper;
 
     public PersonApplicationService(IPersonRepository personRepository, IMapper mapper) : base(personRepository, mapper)
     {
@@ -19,9 +19,10 @@ public class PersonApplicationService : BaseApplicationService<PersonDTO, AddPer
         PersonRepository = personRepository;
     }
 
-    public async Task<IEnumerable<PersonDTO>> GetFiltered(GetPeopleDTO getPeopleDTO)
+    public async Task<IEnumerable<PersonDTO>> GetByCPF(GetPeopleDTO getPeopleDTO)
     {
-        Expression<Func<Person, bool>> query = person => person.CPF == getPeopleDTO.CPF;
+        Expression<Func<Person, bool>> query = person => person.CPF == getPeopleDTO.CPFFilter && string.IsNullOrWhiteSpace(getPeopleDTO.CPFFilter);
+
         var entityItems = await PersonRepository.GetFiltered(query);
         return Mapper.Map<IEnumerable<PersonDTO>>(entityItems);
     }
@@ -30,12 +31,21 @@ public class PersonApplicationService : BaseApplicationService<PersonDTO, AddPer
     {
         var getPeopleDTO = new GetPeopleDTO
         {
-            CPF = addPersonDTO.CPF,
+            CPFFilter = addPersonDTO.CPF,
         };
 
-        if (GetFiltered(getPeopleDTO).Result.Any())
+        if (GetByCPF(getPeopleDTO).Result.Any())
             throw new Exception(Messages.CPFJaCadastrado);
 
         return await base.Add(addPersonDTO);
+    }
+
+    public override async Task<IEnumerable<PersonDTO>> GetManyPaginated(int Page, int PageItems, string Search)
+    {
+        Expression<Func<Person, bool>> query = p =>
+            $"{p.Name}{p.LastName}{p.Nacionality}{p.State}{p.City}{p.CPF}{p.Phone}{p.CEP}{p.Address}{p.Email}".Contains(Search);
+
+        var entityItems = await PersonRepository.GetManyPaginated(Page, PageItems, query);
+        return Mapper.Map<IEnumerable<PersonDTO>>(entityItems);
     }
 }
