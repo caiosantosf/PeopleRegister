@@ -4,7 +4,6 @@ global using Microsoft.EntityFrameworkCore;
 using PeopleRegister.Application.Mappers;
 using PeopleRegister.CrossCutting.IOC;
 using PeopleRegister.CrossCutting.Filters;
-using Flunt.Notifications;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +14,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDepencyInjection();
 builder.Services.AddProfiles();
 
-builder.Services.AddMvc(options => options.Filters.Add<NotificationFilter>());
 builder.Services.AddMvc(options => options.Filters.Add<GlobalExceptionFilter>());
 
 builder.Services.AddDbContext<Context>();

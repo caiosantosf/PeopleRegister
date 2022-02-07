@@ -35,14 +35,14 @@ public class Person : BaseEntity
 
         AddNotifications(new Contract()
             .IsCep(CEP, nameof(CEP), Messages.InvalidCEP)
-            .IsCpf(CPF, nameof(CPF), Messages.InvalidCEP)
+            .IsCpf(CPF, nameof(CPF), Messages.InvalidCPF)
             .IsPhone(Phone, nameof(Phone), Messages.InvalidPhone)
-            .AreEquals(Name, 50, Messages.InvalidName)
-            .AreEquals(LastName, 50, Messages.InvalidLastName)
-            .AreEquals(Nacionality, 50, Messages.InvalidNacionality)
-            .AreEquals(Address, 100, Messages.InvalidAddress)
-            .AreEquals(State, 2, Messages.InvalidState)
-            .AreEquals(City, 50, Messages.InvalidCity)
+            .IsLowerThan(Name, 50, nameof(Name), Messages.InvalidName)
+            .IsLowerThan(LastName, 50, nameof(LastName), Messages.InvalidLastName)
+            .IsLowerThan(Nacionality, 50, nameof(Nacionality), Messages.InvalidNacionality)
+            .IsLowerThan(Address, 100, nameof(Address), Messages.InvalidAddress)
+            .AreEquals(State, 2, nameof(State), Messages.InvalidState)
+            .IsLowerThan(City, 50, nameof(City), Messages.InvalidCity)
         );
     }
 }

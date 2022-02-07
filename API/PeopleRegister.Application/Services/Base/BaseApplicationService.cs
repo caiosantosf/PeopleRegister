@@ -25,6 +25,12 @@ public class BaseApplicationService<TDTO, TAddDTO, TEntity> : IBaseApplicationSe
     public virtual async Task<Guid> Add(TAddDTO obj)
     {
         var entity = Mapper.Map<TEntity>(obj);
+
+        if (!entity.IsValid)
+        {
+            throw new BadRequestException(entity.Notifications);
+        }
+
         await BaseRepository.Add(entity);
         return entity.Id;
     }

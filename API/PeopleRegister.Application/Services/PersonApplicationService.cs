@@ -2,6 +2,7 @@
 using PeopleRegister.Application.DTOs;
 using PeopleRegister.Application.Interfaces;
 using PeopleRegister.Domain.Entities;
+using PeopleRegister.Domain.Exceptions;
 using PeopleRegister.Domain.Interfaces;
 using PeopleRegister.Domain.Notifications;
 using System.Linq.Expressions;
@@ -19,23 +20,18 @@ public class PersonApplicationService : BaseApplicationService<PersonDTO, AddPer
         PersonRepository = personRepository;
     }
 
-    public async Task<IEnumerable<PersonDTO>> GetByCPF(GetPeopleDTO getPeopleDTO)
+    public async Task<IEnumerable<PersonDTO>> GetByCPF(string cpf)
     {
-        Expression<Func<Person, bool>> query = person => person.CPF == getPeopleDTO.CPFFilter && string.IsNullOrWhiteSpace(getPeopleDTO.CPFFilter);
+        Expression<Func<Person, bool>> query = person => person.CPF == cpf && !string.IsNullOrWhiteSpace(cpf);
 
-        var entityItems = await PersonRepository.GetFiltered(query);
-        return Mapper.Map<IEnumerable<PersonDTO>>(entityItems);
+        var people = await PersonRepository.GetFiltered(query);
+        return Mapper.Map<IEnumerable<PersonDTO>>(people);
     }
 
     public override async Task<Guid> Add(AddPersonDTO addPersonDTO)
     {
-        var getPeopleDTO = new GetPeopleDTO
-        {
-            CPFFilter = addPersonDTO.CPF,
-        };
-
-        if (GetByCPF(getPeopleDTO).Result.Any())
-            throw new Exception(Messages.CPFJaCadastrado);
+        if (GetByCPF(addPersonDTO.CPF).Result.Any())
+            throw new BadRequestException(Messages.CPFJaCadastrado);
 
         return await base.Add(addPersonDTO);
     }
