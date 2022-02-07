@@ -39,7 +39,7 @@ public class PersonApplicationService : BaseApplicationService<PersonDTO, AddPer
     public override async Task<IEnumerable<PersonDTO>> GetManyPaginated(int page, int pageItems, string search)
     {
         Expression<Func<Person, bool>> query = p =>
-            !string.IsNullOrWhiteSpace(search) && (
+            string.IsNullOrWhiteSpace(search) || (
             p.Name.Contains(search) ||
             p.LastName.Contains(search) ||
             p.Nacionality.Contains(search) ||

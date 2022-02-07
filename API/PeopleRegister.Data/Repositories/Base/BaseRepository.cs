@@ -44,6 +44,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
     public async Task Update(TEntity obj)
     {
+        context.ChangeTracker.Clear();
         context.Set<TEntity>().Update(obj);
         await context.SaveChangesAsync();
     }

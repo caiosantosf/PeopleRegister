@@ -67,9 +67,9 @@ public class BaseApplicationService<TDTO, TAddDTO, TEntity> : IBaseApplicationSe
 
     public virtual async Task Update(TDTO obj)
     {
-        var entity = await BaseRepository.GetById(Mapper.Map<TEntity>(obj).Id);
+        var entity = Mapper.Map<TEntity>(obj);
 
-        if (entity == null)
+        if (await BaseRepository.GetById(entity.Id) == null)
         {
             throw new NotFoundException(Messages.PersonNotFound);
         }
