@@ -8,7 +8,6 @@ public class PersonMap : IEntityTypeConfiguration<Person>
 {
     public void Configure(EntityTypeBuilder<Person> builder)
     {
-        builder.ToTable("People");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).HasMaxLength(36);
         builder.Property(x => x.Name).HasMaxLength(50);
@@ -21,5 +20,6 @@ public class PersonMap : IEntityTypeConfiguration<Person>
         builder.Property(x => x.Address).HasMaxLength(100);
         builder.Property(x => x.Email).HasMaxLength(200);
         builder.Property(x => x.Phone).HasMaxLength(11);
+        builder.ToTable("People");
     }
 }

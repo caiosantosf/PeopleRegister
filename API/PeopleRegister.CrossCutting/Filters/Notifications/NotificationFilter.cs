@@ -8,18 +8,18 @@ namespace PeopleRegister.CrossCutting.Filters;
 
 public class NotificationFilter : IAsyncResultFilter
 {
-    private readonly Notifiable<Notification> NotificationContext;
+    private readonly Notifiable<Notification> notificationContext;
 
-    public NotificationFilter(Notifiable<Notification> notificationContext)
+    public NotificationFilter()
     {
-        NotificationContext = notificationContext;
+        notificationContext = new NotificationContext();
     }
 
     public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
     {
-        if (!NotificationContext.IsValid)
+        if (!notificationContext.IsValid)
         {
-            var error = new { Messages = NotificationContext.Notifications.Select(s => s.Message) };
+            var error = new { Messages = notificationContext.Notifications.Select(s => s.Message) };
 
             context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 
@@ -30,5 +30,24 @@ public class NotificationFilter : IAsyncResultFilter
         }
 
         await next();
+    }
+
+    public class NotificationMessage
+    {
+        public NotificationMessage(string message, string detail)
+        {
+            Message = message;
+            Detail = detail;
+        }
+
+        public string Message { get; }
+        public string Detail { get; }
+    }
+
+    public class NotificationContext : Notifiable<Notification>
+    {
+        public new void AddNotification(string message, string detail = "") => base.AddNotification(message, detail);
+
+        public new IEnumerable<NotificationMessage> Notifications => base.Notifications.Select(notification => new NotificationMessage(notification.Key, notification.Message));
     }
 }

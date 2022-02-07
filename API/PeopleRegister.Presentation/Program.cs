@@ -1,7 +1,10 @@
+global using PeopleRegister.Data;
+global using Microsoft.EntityFrameworkCore;
+
 using PeopleRegister.Application.Mappers;
 using PeopleRegister.CrossCutting.IOC;
 using PeopleRegister.CrossCutting.Filters;
-using PeopleRegister.Data;
+using Flunt.Notifications;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,9 +19,13 @@ builder.Services.AddMvc(options => options.Filters.Add<NotificationFilter>());
 builder.Services.AddMvc(options => options.Filters.Add<GlobalExceptionFilter>());
 
 builder.Services.AddDbContext<Context>();
-builder.Services.AddScoped<Context>();
 
 var app = builder.Build();
+
+var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+var context = services.GetRequiredService<Context>();
+await context.Database.MigrateAsync();
 
 if (app.Environment.IsDevelopment())
 {

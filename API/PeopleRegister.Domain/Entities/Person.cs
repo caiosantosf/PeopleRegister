@@ -18,13 +18,15 @@ public class Person : BaseEntity
     public string Email { get; private set; } 
     public string Phone { get; private set; }
 
-    public Person(string name, string lastName, string cpf, string nacionality, string cep, string state, string city, string address, string email, string phone) : base()
+    public Person() { }
+
+    public Person(string name, string lastName, string cPF, string nacionality, string cEP, string state, string city, string address, string email, string phone)
     {
         Name = name;
         LastName = lastName;
-        CPF = cpf;
+        CPF = cPF;
         Nacionality = nacionality;
-        CEP = cep;
+        CEP = cEP;
         State = state;
         City = city;
         Address = address;

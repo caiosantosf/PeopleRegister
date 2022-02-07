@@ -40,12 +40,22 @@ public class PersonApplicationService : BaseApplicationService<PersonDTO, AddPer
         return await base.Add(addPersonDTO);
     }
 
-    public override async Task<IEnumerable<PersonDTO>> GetManyPaginated(int Page, int PageItems, string Search)
+    public override async Task<IEnumerable<PersonDTO>> GetManyPaginated(int page, int pageItems, string search)
     {
         Expression<Func<Person, bool>> query = p =>
-            $"{p.Name}{p.LastName}{p.Nacionality}{p.State}{p.City}{p.CPF}{p.Phone}{p.CEP}{p.Address}{p.Email}".Contains(Search);
+            !string.IsNullOrWhiteSpace(search) && (
+            p.Name.Contains(search) ||
+            p.LastName.Contains(search) ||
+            p.Nacionality.Contains(search) ||
+            p.State.Contains(search) ||
+            p.City.Contains(search) ||
+            p.CPF.Contains(search) ||
+            p.Phone.Contains(search) ||
+            p.CEP.Contains(search) ||
+            p.Address.Contains(search) ||
+            p.Email.Contains(search));
 
-        var entityItems = await PersonRepository.GetManyPaginated(Page, PageItems, query);
+        var entityItems = await PersonRepository.GetManyPaginated(page, pageItems, query);
         return Mapper.Map<IEnumerable<PersonDTO>>(entityItems);
     }
 }

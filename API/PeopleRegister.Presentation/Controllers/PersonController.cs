@@ -16,13 +16,15 @@ public class PersonController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<PersonDTO>>> GetManyPaginated(
-        [FromQuery] int Page = 1, [FromQuery] int PageItems = 20, [FromQuery] string Search = "")
+    public async Task<ActionResult<ResponseListDTO<PersonDTO>>> GetManyPaginated(
+        [FromQuery] int page = 1, [FromQuery] int pageItems = 20, [FromQuery] string? search = "")
     {
-        return Ok(new ResponseListDTO { 
-            Page = Page, 
-            PageItems = PageItems, 
-            Data = await PersonApplicationService.GetManyPaginated(Page, PageItems, Search) 
+        var people = await PersonApplicationService.GetManyPaginated(page, pageItems, search);
+
+        return Ok(new ResponseListDTO<PersonDTO> { 
+            Page = page, 
+            PageItems = people.Count(), 
+            Data = people
         });
     }
 
@@ -36,7 +38,7 @@ public class PersonController : ControllerBase
     public async Task<ActionResult<PersonDTO>> Add([FromBody] AddPersonDTO addPersonDTO)
     {
         var Id = await PersonApplicationService.Add(addPersonDTO);
-        var AddedPersonUri = new Uri($"{Request.Path}{Id}");
+        var AddedPersonUri = new Uri($"{Request.Path}/{Id}", UriKind.Relative);
         return Created(AddedPersonUri, null);
     }
 

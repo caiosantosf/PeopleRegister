@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Flunt.Notifications;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using PeopleRegister.Data.Mappings;
 using PeopleRegister.Domain.Entities;
@@ -11,7 +12,7 @@ public class Context : DbContext
 
     public Context() { }
 
-    public Context(DbContextOptions<Context> options, IConfiguration configuration) : base(options) 
+    public Context(DbContextOptions<Context> options, IConfiguration configuration) : base(options)
     {
         Configuration = configuration;
     }
@@ -20,12 +21,20 @@ public class Context : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(Configuration.GetConnectionString("connectionString"));
+        var conn = Configuration.GetConnectionString("Default");
+        if (conn == null)
+            optionsBuilder.UseSqlServer();
+        else
+            optionsBuilder.UseSqlServer(conn);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Ignore<Notification>();
+
         modelBuilder.ApplyConfiguration(new PersonMap());
+
+        base.OnModelCreating(modelBuilder);
     }
 
     public override int SaveChanges()

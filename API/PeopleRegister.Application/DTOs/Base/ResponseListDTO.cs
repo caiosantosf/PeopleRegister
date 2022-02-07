@@ -1,6 +1,6 @@
 ﻿namespace PeopleRegister.Application.DTOs;
 
-public class ResponseListDTO : BaseGetDTO
+public class ResponseListDTO<TDTO> : BaseGetDTO
 {
-    public IEnumerable<object> Data { get; set; }
+    public IEnumerable<TDTO> Data { get; set; }
 }
