@@ -12,4 +12,8 @@ export class DeletePeopleComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  deletarPessoa(){
+    
+  }
+
 }

@@ -16,16 +16,10 @@ public class PersonController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<ResponseListDTO<PersonDTO>>> GetManyPaginated(
+    public async Task<ActionResult<ResponseListDTO<PersonDTO>>> GetMany(
         [FromQuery] int page = 1, [FromQuery] int pageItems = 20, [FromQuery] string? search = "")
     {
-        var people = await PersonApplicationService.GetManyPaginated(page, pageItems, search);
-
-        return Ok(new ResponseListDTO<PersonDTO> { 
-            Page = page, 
-            PageItems = people.Count(), 
-            Data = people
-        });
+        return Ok(await PersonApplicationService.GetMany(page, pageItems, search));
     }
 
     [HttpGet("{id}")]

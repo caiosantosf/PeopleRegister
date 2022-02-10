@@ -3,12 +3,15 @@
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
       <h1 class="nav col-12 col-lg-auto me-lg-auto mb-3 justify-content-center mb-md-0">
           <i class="bi bi-people-fill me-2"></i>
-          <span class="">Pessoas (3)</span>
+          <span class="">Pessoas ({{ total }})</span>
       </h1>
 
       <form class="col-12 col-lg-4 mb-3 mb-lg-0 me-lg-3">
-        <input type="search" class="form-control border" placeholder="Pesquisar..." aria-label="Search">
-
+        <div class="input-group imput-group-lg">
+          <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
+          <input id="serch" name="search" type="search" [value]="search"
+            class="form-control" placeholder="Pesquisar..." aria-label="Search">
+        </div>
       </form>
 
       <div class="col-12 col-lg-2 mb-2 mb-lg-0 me-lg-3">

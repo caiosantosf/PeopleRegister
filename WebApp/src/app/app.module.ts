@@ -6,6 +6,8 @@ import { HeaderComponent } from './pages/people/components/header/header.compone
 import { ListPeopleComponent } from './pages/people/components/list-people/list-people.component'
 import { PeopleFormComponent } from './pages/people/components/people-form/people-form.component';
 import { DeletePeopleComponent } from './pages/people/components/delete-people/delete-people.component'
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -17,7 +19,8 @@ import { DeletePeopleComponent } from './pages/people/components/delete-people/d
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

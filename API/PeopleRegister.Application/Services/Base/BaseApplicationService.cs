@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using PeopleRegister.Application.DTOs;
 using PeopleRegister.Application.Interfaces;
 using PeopleRegister.Domain.Entities;
 using PeopleRegister.Domain.Exceptions;
@@ -35,10 +36,23 @@ public class BaseApplicationService<TDTO, TAddDTO, TEntity> : IBaseApplicationSe
         return entity.Id;
     }
 
-    public virtual async Task<IEnumerable<TDTO>> GetManyPaginated(int Page, int PageItems, string Search)
+    public virtual async Task<ResponseListDTO<TDTO>> GetMany(int page, int pageItems, string search)
     {
-        var entityItems = await BaseRepository.GetManyPaginated(Page, PageItems, null);
-        return Mapper.Map<IEnumerable<TDTO>>(entityItems);
+        Expression<Func<TEntity, bool>> query = p =>
+            string.IsNullOrWhiteSpace(search) || (
+                p.Id.ToString().Contains(search)
+            );
+
+        var entityItems = await BaseRepository.GetMany(page, pageItems, query);
+        var totalItems = await BaseRepository.GetAmount(query);
+        
+        return new ResponseListDTO<TDTO>
+        {
+            Page = page,
+            PageItems = entityItems.Count(),
+            TotalItems = totalItems,
+            Data = Mapper.Map<IEnumerable<TDTO>>(entityItems)
+    };
     }
 
     public virtual async Task<TDTO> GetById(Guid id)
