@@ -30,8 +30,8 @@
             <td class="d-none d-lg-table-cell d-xl-table-cell d-xxl-table-cell">{{ person.email }}</td>
             <td class="d-none d-lg-table-cell d-xl-table-cell d-xxl-table-cell">{{ person.state }}</td>
             <td class="d-none d-lg-table-cell d-xl-table-cell d-xxl-table-cell">{{ person.city }}</td>
-            <td><a href="#" data-bs-toggle="modal" data-bs-target="#peopleForm" (click)="setIdForUpdate(person.id)"><i class="bi bi-pencil"></i></a></td>
-            <td><a href="#" data-bs-toggle="modal" data-bs-target="#peopleDelete" (click)="setIdForDelete(person.id)"><i class="bi bi-trash3"></i></a></td>
+            <td><a href="#" data-bs-toggle="modal" data-bs-target="#formPeople" (click)="setPersonForUpdate(person.id)"><i class="bi bi-pencil"></i></a></td>
+            <td><a href="#" data-bs-toggle="modal" data-bs-target="#deletePeople" (click)="setPersonForDelete(person.id, person.name, person.lastName)"><i class="bi bi-trash3"></i></a></td>
           </tr>
         </tbody>
       </table>
@@ -47,4 +47,4 @@
 </div>
 
 <app-form-people></app-form-people>
-<app-delete-people></app-delete-people>
+<app-delete-people (callback)="getPeople()"></app-delete-people>

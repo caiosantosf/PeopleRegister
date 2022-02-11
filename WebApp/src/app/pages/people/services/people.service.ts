@@ -10,7 +10,7 @@ import { AddPersonDTO } from '../models/addPersonDTO';
   providedIn: 'root'
 })
 export class PeopleService {
-  private readonly url: string = `${environment.apiUrl}people`
+  private readonly url: string = `${environment.apiUrl}people/`
 
   constructor(
     private http: HttpClient

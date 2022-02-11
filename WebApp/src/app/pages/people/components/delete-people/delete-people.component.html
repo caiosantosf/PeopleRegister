@@ -1,16 +1,16 @@
-<div class="modal fade" id="peopleDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="deletePeople" data-bs-backdrop="static" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-md">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Excluir Pessoa</h5>
+        <h5 class="modal-title" id="staticBackdropLabel"><i class="bi bi-trash3"></i> Excluir Pessoa</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <span>Deseja realmente excluir esta pessoa?</span>
+        <span>Deseja realmente excluir {{ selectedName }} {{ selectedLastName }}?</span>
       </div>
       <div class="modal-footer bg-dark">
         <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary" (click)="deletarPessoa()">Confirmar</button>
+        <button type="button" class="btn btn-primary" (click)="deletePerson()">Confirmar</button>
       </div>
     </div>
   </div>

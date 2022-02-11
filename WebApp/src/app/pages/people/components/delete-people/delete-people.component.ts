@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { PeopleService } from '../../services/people.service';
+
+declare const bootstrap: any;
 
 @Component({
   selector: 'app-delete-people',
@@ -7,15 +10,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DeletePeopleComponent implements OnInit {
 
-  selectedId: string = ""
+  @Output("callback") callback: EventEmitter<any> = new EventEmitter()
 
-  constructor() { }
+  selectedId: string = ""
+  selectedName: string = ""
+  selectedLastName: string = ""
+
+  constructor(
+    private peopleService: PeopleService
+  ) { }
 
   ngOnInit(): void {
   }
 
-  deletarPessoa(){
-
+  deletePerson(): void {
+    this.peopleService.deletePerson(this.selectedId)
+      .subscribe(_ => {
+        this.callback.emit()
+        bootstrap.Modal.getInstance(document.getElementById('deletePeople')).hide()
+      })
   }
 
 }
