@@ -7,13 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DeletePeopleComponent implements OnInit {
 
+  selectedId: string = ""
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
   deletarPessoa(){
-    
+
   }
 
 }

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PeopleFormComponent } from './people-form.component';
+import { PeopleFormComponent } from './form-people.component';
 
 describe('PeopleFormComponent', () => {
   let component: PeopleFormComponent;
