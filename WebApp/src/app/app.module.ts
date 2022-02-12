@@ -7,7 +7,7 @@ import { ListPeopleComponent } from './pages/people/components/list-people/list-
 import { FormPeopleComponent } from './pages/people/components/form-people/form-people.component';
 import { DeletePeopleComponent } from './pages/people/components/delete-people/delete-people.component'
 import { HttpClientModule } from '@angular/common/http';
-
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

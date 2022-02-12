@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { PeopleService } from '../../services/people.service';
 
 declare const bootstrap: any;
@@ -11,7 +11,7 @@ declare const bootstrap: any;
 export class DeletePeopleComponent implements OnInit {
 
   @Output("callback") callback: EventEmitter<any> = new EventEmitter()
-
+  
   selectedId: string = ""
   selectedName: string = ""
   selectedLastName: string = ""

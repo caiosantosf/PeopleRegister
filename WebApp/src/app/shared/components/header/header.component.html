@@ -9,7 +9,7 @@
       <form class="col-12 col-lg-4 mb-3 mb-lg-0 me-lg-3">
         <div class="input-group imput-group-lg">
           <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
-          <input id="serch" name="search" type="search" [value]="search"
+          <input #inputSearch id="serch" name="search" type="search" [(ngModel)]="search"
             class="form-control" placeholder="Pesquisar..." aria-label="Search">
         </div>
       </form>

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { PersonDTO } from '../../models/personDTO';
 import { PeopleService } from '../../services/people.service';
 import { DeletePeopleComponent } from '../delete-people/delete-people.component';
@@ -19,7 +19,9 @@ export class ListPeopleComponent implements AfterViewInit {
   @ViewChild(HeaderComponent) headerComponent!: HeaderComponent
   @ViewChild(FormPeopleComponent) peopleFormComponent!: FormPeopleComponent
   @ViewChild(DeletePeopleComponent) deletePeopleComponent!: DeletePeopleComponent
+  @ViewChild('searchInput') searchInput!: ElementRef;
 
+  search: string = ''
   page: number = 1
   data: Array<PersonDTO> = []
   lastPage: number = 1;
@@ -33,8 +35,14 @@ export class ListPeopleComponent implements AfterViewInit {
     this.getPeople()
   }
 
+  handleSearch($event: { search: string | undefined; }) {
+    console.log($event)
+    this.search = $event.search != undefined ? $event.search : this.search
+    this.getPeople()
+  }
+
   getPeople(): void {
-    this.peopleService.getPeople(this.headerComponent.search, this.page)
+    this.peopleService.getPeople(this.search, this.page)
       .subscribe({
         error: (error) => {
           Object.entries(error.messages).forEach((item) => {
