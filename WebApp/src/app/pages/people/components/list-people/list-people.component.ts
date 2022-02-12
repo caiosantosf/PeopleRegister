@@ -6,6 +6,8 @@ import { HeaderComponent } from '../../../../shared/components/header/header.com
 import { FormPeopleComponent } from '../form-people/form-people.component';
 import { environment } from '../../../../../environments/environment';
 
+declare const bootstrap: any;
+
 @Component({
   selector: 'app-list-people',
   templateUrl: './list-people.component.html',
@@ -21,6 +23,7 @@ export class ListPeopleComponent implements AfterViewInit {
   page: number = 1
   data: Array<PersonDTO> = []
   lastPage: number = 1;
+  notification: string = '';
 
   constructor(
     private peopleService: PeopleService
@@ -32,10 +35,17 @@ export class ListPeopleComponent implements AfterViewInit {
 
   getPeople(): void {
     this.peopleService.getPeople(this.headerComponent.search, this.page)
-      .subscribe(response => {
-        this.headerComponent.total = response.totalItems
-        this.data = response.data
-        this.lastPage = Math.ceil(response.totalItems / environment.pageItems)
+      .subscribe({
+        error: (error) => {
+          Object.entries(error.messages).forEach((item) => {
+            this.showNotification(typeof item[1] === 'string' ? item[1] : '')
+          })
+        },
+        next: (response) => {
+          this.headerComponent.total = response.totalItems
+          this.data = response.data
+          this.lastPage = Math.ceil(response.totalItems / environment.pageItems)
+        }
       })
   }
 
@@ -61,15 +71,17 @@ export class ListPeopleComponent implements AfterViewInit {
 
   navNext(): void {
     this.page++
-    this.getPeople();
+    this.getPeople()
   }
 
   navLast(): void {
-    this.page = this.lastPage;
-    this.getPeople();
+    this.page = this.lastPage
+    this.getPeople()
   }
 
-  refreshPage(): void {
-
+  showNotification(notification: string): void {
+    this.notification = notification
+    const toast = new bootstrap.Toast(document.getElementById('notificationToast'))
+    toast.show()
   }
 }
